@@ -33,7 +33,8 @@ return {
 		ps.sub("tab", callback)
 	end,
 
-	entry = function(_, job)
+	entry = function(_, job_or_args)
+		local args = job_or_args.args or job_or_args
 		local output = Command("oh-my-posh")
 			:args({
 				"print",
@@ -42,10 +43,10 @@ return {
 				"-c",
 				get_config(),
 			})
-			:cwd(job.args[1])
+			:cwd(args[1])
 			:output()
 		if output then
-			save(job.args[1], output.stdout:gsub("^%s+", ""))
+			save(args[1], output.stdout:gsub("^%s+", ""))
 		end
 	end,
 }
